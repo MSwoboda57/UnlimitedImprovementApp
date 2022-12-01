@@ -1,0 +1,245 @@
+﻿USE [master]
+GO
+
+IF db_id('UnlimitedImprovement') IS NULL
+  CREATE DATABASE UnlimitedImprovement
+GO
+
+USE [UnlimitedImprovement]
+GO
+
+DROP TABLE IF EXISTS [User];
+DROP TABLE IF EXISTS [DayOfTheWeek];
+DROP TABLE IF EXISTS [Exercise];
+DROP TABLE IF EXISTS [ExerciseDayOfTheWeek];
+DROP TABLE IF EXISTS [Vice];
+DROP TABLE IF EXISTS [LearningType];
+DROP TABLE IF EXISTS [Learning];
+DROP TABLE IF EXISTS [Nutrition];
+DROP TABLE IF EXISTS [NutritionDayOfTheWeek];
+DROP TABLE IF EXISTS [Meditation];
+DROP TABLE IF EXISTS [NewIdeas];
+
+
+--varchar or nvarchar?
+CREATE TABLE [User] (
+  [Id] INTEGER IDENTITY NOT NULL,
+  [FirebaseId] VARCHAR(28) PRIMARY KEY NOT NULL,
+  [UserName] VARCHAR(50) NOT NULL,
+  [Email] VARCHAR(255) NOT NULL,
+  
+  CONSTRAINT UQ_FirebaseUserId UNIQUE(FirebaseId)
+)
+
+CREATE TABLE [DayOfTheWeek] (
+	[Id] INTEGER IDENTITY PRIMARY KEY NOT NULL,
+	[Day] VARCHAR(28) NOT NULL,
+)
+
+
+CREATE TABLE [Exercise] (
+	[Id] INTEGER IDENTITY PRIMARY KEY NOT NULL,
+	[FirebaseId] VARCHAR(28) NOT NULL,
+	[ExerciseName] VARCHAR(255) NOT NULL,
+	[Notes] VARCHAR(500) NOT NULL,
+
+	CONSTRAINT FK_Exercise_User FOREIGN KEY (FireBaseId) REFERENCES [User](FirebaseId),
+)
+
+
+CREATE TABLE [ExerciseDayOfTheWeek] (
+	[Id] INTEGER IDENTITY PRIMARY KEY NOT NULL,
+	[DayOfTheWeekId] INTEGER NOT NULL,
+	[ExerciseId] INTEGER NOT NULL,
+	
+	CONSTRAINT FK_ExerciseDayOfTheWeek_DayOfTheWeek FOREIGN KEY (DayOfTheWeekId) REFERENCES [DayOfTheWeek](Id),
+	CONSTRAINT FK_ExerciseDayOfTheWeek_Exercise FOREIGN KEY (ExerciseId) REFERENCES [Exercise](Id)
+)
+
+
+CREATE TABLE [Vice] (
+	[Id] INTEGER IDENTITY PRIMARY KEY NOT NULL,
+	[FirebaseId] VARCHAR(28) NOT NULL,
+	[ViceName] VARCHAR(50) NOT NULL,
+	[HowToFix] VARCHAR(500) NOT NULL,
+	[Benefits] VARCHAR(500) NOT NULL,
+	[Notes] VARCHAR(500) NOT NULL,
+	[Date] DATE DEFAULT '1900-01-01' NOT NULL
+
+	CONSTRAINT FK_Vice_User FOREIGN KEY (FireBaseId) REFERENCES [User](FirebaseId)
+)
+
+CREATE TABLE [LearningType] (
+	[Id] INTEGER IDENTITY PRIMARY KEY NOT NULL,
+	[Type] VARCHAR(255) NOT NULL
+)
+
+CREATE TABLE [Learning] (
+	[Id] INTEGER IDENTITY PRIMARY KEY NOT NULL,
+	[LearningTypeId] INTEGER NOT NULL,
+	[FireBaseId] VARCHAR(28) NOT NULL,
+	[Title] VARCHAR(255) NOT NULL,
+	[Link] VARCHAR(500) NOT NULL,
+	[Notes] VARCHAR(500) NOT NULL,
+	
+	CONSTRAINT FK_Learning_User FOREIGN KEY (FirebaseId) REFERENCES [User](FirebaseId),
+	CONSTRAINT FK_Learning_LearningType FOREIGN KEY (LearningTypeId) REFERENCES [LearningType](Id)
+	
+)
+
+
+CREATE TABLE [Nutrition] (
+	[Id] INTEGER IDENTITY  PRIMARY KEY NOT NULL,
+	[FirebaseId] VARCHAR(28) NOT NULL,
+	[Notes] VARCHAR(500) NOT NULL,
+	[Breakfast] VARCHAR(500) NOT NULL,
+	[Lunch] VARCHAR(500) NOT NULL,
+	[Dinner] VARCHAR(500) NOT NULL,
+	[Misc] VARCHAR(500) NOT NULL
+
+	CONSTRAINT FK_Nutrition_User FOREIGN KEY (FireBaseId) REFERENCES [User](FirebaseId)
+)
+
+CREATE TABLE [NutritionDayOfTheWeek] (
+	[Id] INTEGER IDENTITY PRIMARY KEY NOT NULL,
+	[NutritionId] INTEGER NOT NULL,
+	[DayOfTheWeekId] INTEGER NOT NULL
+	
+	CONSTRAINT FK_NutritionDayOfTheWeek_Nutrition FOREIGN KEY (NutritionId) REFERENCES [Nutrition](Id),
+	CONSTRAINT FK_NutritionDayOfTheWeek_DayOfTheWeek FOREIGN KEY (DayOfTheWeekId) REFERENCES [DayOfTheWeek](Id)
+	
+)
+
+CREATE TABLE [Meditation] (
+	[Id] INTEGER IDENTITY PRIMARY KEY NOT NULL,
+	[FirebaseId] VARCHAR(28) NOT NULL,
+	[Date] DATE DEFAULT '1900-01-01',
+	[SessionNotes] VARCHAR(500) NOT NULL
+
+	CONSTRAINT FK_Meditation_User FOREIGN KEY (FireBaseId) REFERENCES [User](FirebaseId)
+)
+
+CREATE TABLE [NewIdeas] (
+	[Id] INTEGER IDENTITY PRIMARY KEY NOT NULL,
+	[FirebaseId] VARCHAR(28) NOT NULL,
+	[Date] DATE DEFAULT '1900-01-01',
+	[NewIdea] VARCHAR(255) NOT NULL
+
+	CONSTRAINT FK_NewIdeas_User FOREIGN KEY (FireBaseId) REFERENCES [User](FirebaseId)
+)
+GO
+
+
+SET IDENTITY_INSERT [User] ON
+INSERT INTO [User]
+  ([Id], [FirebaseId], [UserName], [Email])
+VALUES 
+  (1, 'RIJksXYmLdPHeLXeuCBGgt2ti1x2', 'Mary', 'Mary@gmail.com'), 
+  (2,  'XfG5pOK5iCdEKFVvlA8FCqLmuj73', 'Joe', 'Joe@gmail.com'),
+  (3,  'TFvfiD5NBAdbf60XL7p7Nt6dv9m2', 'Barbara', 'Barbara@gmail.com'),
+  (4,  'PXgFvkjOQ2XI69qpaRoo3XWDzUf1', 'Ethel', 'Ethel@gmail.com')
+SET IDENTITY_INSERT [User] OFF
+
+SET IDENTITY_INSERT [DayOfTheWeek] ON
+INSERT INTO [DayOfTheWeek] 
+	([Id], [Day])
+VALUES
+	(1, 'Monday'),
+	(2, 'Tuesday'),
+	(3, 'Wednesday'),
+	(4, 'Thursday'),
+	(5, 'Friday'),
+	(6, 'Saturday'),
+	(7, 'Sunday')
+
+SET IDENTITY_INSERT [DayOfTheWeek] OFF
+
+
+SET IDENTITY_INSERT [Exercise] ON
+INSERT INTO [Exercise] 
+	([Id], [FirebaseId], [ExerciseName], [Notes])
+VALUES
+	(1, 'RIJksXYmLdPHeLXeuCBGgt2ti1x2', 'Squat','30 second rests'),
+	(2, 'XfG5pOK5iCdEKFVvlA8FCqLmuj73', 'Bench', '30 second rests')
+SET IDENTITY_INSERT [Exercise] OFF
+
+
+SET IDENTITY_INSERT [ExerciseDayOfTheWeek] ON
+INSERT INTO [ExerciseDayOfTheWeek] 
+	([Id], [DayOfTheWeekId], [ExerciseId])
+VALUES
+	(1, 1, 1),
+	(2, 2, 2)
+SET IDENTITY_INSERT [ExerciseDayOfTheWeek] OFF
+
+
+SET IDENTITY_INSERT [Vice] ON
+INSERT INTO [Vice] 
+	([Id], [FirebaseId], [ViceName], [HowToFix], [Benefits], [Date],[Notes])
+VALUES
+	(1, 'RIJksXYmLdPHeLXeuCBGgt2ti1x2', 'Drinking', 'only drink on the weekends', 'feel better', '2022-09-14', 'good job'),
+	(2, 'XfG5pOK5iCdEKFVvlA8FCqLmuj73', 'Gambling', 'make a budget', 'save money', '2022-09-14', 'good job');
+SET IDENTITY_INSERT [Vice] OFF
+
+
+SET IDENTITY_INSERT [LearningType] ON
+INSERT INTO [LearningType]
+	([Id], [Type])
+VALUES
+	(1, 'Book'),
+	(2, 'Podcast')
+	
+SET IDENTITY_INSERT [LearningType] OFF
+
+
+SET IDENTITY_INSERT [Learning] ON
+INSERT INTO [Learning]
+	([Id], [FirebaseId], [LearningTypeId], [Title], [Link], [Notes])
+VALUES
+	(1, 'RIJksXYmLdPHeLXeuCBGgt2ti1x2', 1, 'Title 1', 'www.link.com', 'read by saturday'),
+	(2, 'XfG5pOK5iCdEKFVvlA8FCqLmuj73', 2, 'Title 2', 'www.link.com', 'read by monday');
+SET IDENTITY_INSERT [Learning] OFF
+
+
+
+SET IDENTITY_INSERT [Nutrition] ON
+INSERT INTO [Nutrition]
+	([Id], [FirebaseId], [Breakfast], [Lunch], [Dinner], [Misc], [Notes])
+VALUES
+	(1, 'RIJksXYmLdPHeLXeuCBGgt2ti1x2', 'eggs', 'chicken', 'salmon', '1 shake', 'get more vit d'),
+	(2, 'XfG5pOK5iCdEKFVvlA8FCqLmuj73', 'steak & eggs', 'turkey', 'pork chops', 'beef jurkey', 'get more vit iron')
+	
+SET IDENTITY_INSERT [Nutrition] OFF
+
+
+SET IDENTITY_INSERT [NutritionDayOfTheWeek] ON
+INSERT INTO [NutritionDayOfTheWeek]
+	([Id], [NutritionId], [DayOfTheWeekId])
+VALUES
+	(1, 1, 1),
+	(2, 2, 2)
+	
+SET IDENTITY_INSERT [NutritionDayOfTheWeek] OFF
+
+
+
+SET IDENTITY_INSERT [Meditation] ON
+INSERT INTO [Meditation]
+	([Id], [FirebaseId], [Date], [SessionNotes])
+VALUES
+	(1, 'RIJksXYmLdPHeLXeuCBGgt2ti1x2', '2022-09-14', '42 min, idea about capstone'),
+	(2,'XfG5pOK5iCdEKFVvlA8FCqLmuj73', '2022-09-14', '35 min, idea about new app')
+	
+SET IDENTITY_INSERT [Meditation] OFF
+
+
+SET IDENTITY_INSERT [NewIdeas] ON
+INSERT INTO [NewIdeas]
+	([Id], [FirebaseId], [Date], [NewIdea])
+VALUES
+	(1, 'RIJksXYmLdPHeLXeuCBGgt2ti1x2', '2022-09-14', 'bourbon app'),
+	(2,'XfG5pOK5iCdEKFVvlA8FCqLmuj73', '2022-09-14', 'gift card app')
+	
+SET IDENTITY_INSERT [NewIdeas] OFF
+
+
