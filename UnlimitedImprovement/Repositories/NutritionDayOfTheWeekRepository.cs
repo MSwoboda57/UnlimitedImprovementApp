@@ -78,8 +78,8 @@ namespace UnlimitedImprovement.Repositories
                     OUTPUT INSERTED.ID
                     VALUES (@nutritionId, @dayOfTheWeekId);
                 ";
-                    cmd.Parameters.AddWithValue("@nutritionId", nutritionDayOfTheWeek.NutritionId);
-                    cmd.Parameters.AddWithValue("@dayOfTheWeekId", nutritionDayOfTheWeek.DayOfTheWeekId);
+                    cmd.Parameters.AddWithValue("@dayOfTheWeekId", nutritionDayOfTheWeek.NutritionId);
+                    cmd.Parameters.AddWithValue("@nutritionId", nutritionDayOfTheWeek.DayOfTheWeekId);
 
 
                     int id = (int)cmd.ExecuteScalar();

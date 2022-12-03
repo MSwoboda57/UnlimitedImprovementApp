@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\pv2sw\\workspace\\UnlimitedImprovement\\UnlimitedImprovement\\UnlimitedImprovement.csproj": {}
+    "C:\\Users\\pv2sw\\workspace\\UnlimitedImprovementApp\\UnlimitedImprovement\\UnlimitedImprovement.csproj": {}
   },
   "projects": {
-    "C:\\Users\\pv2sw\\workspace\\UnlimitedImprovement\\UnlimitedImprovement\\UnlimitedImprovement.csproj": {
+    "C:\\Users\\pv2sw\\workspace\\UnlimitedImprovementApp\\UnlimitedImprovement\\UnlimitedImprovement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\pv2sw\\workspace\\UnlimitedImprovement\\UnlimitedImprovement\\UnlimitedImprovement.csproj",
+        "projectUniqueName": "C:\\Users\\pv2sw\\workspace\\UnlimitedImprovementApp\\UnlimitedImprovement\\UnlimitedImprovement.csproj",
         "projectName": "UnlimitedImprovement",
-        "projectPath": "C:\\Users\\pv2sw\\workspace\\UnlimitedImprovement\\UnlimitedImprovement\\UnlimitedImprovement.csproj",
+        "projectPath": "C:\\Users\\pv2sw\\workspace\\UnlimitedImprovementApp\\UnlimitedImprovement\\UnlimitedImprovement.csproj",
         "packagesPath": "C:\\Users\\pv2sw\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\pv2sw\\workspace\\UnlimitedImprovement\\UnlimitedImprovement\\obj\\",
+        "outputPath": "C:\\Users\\pv2sw\\workspace\\UnlimitedImprovementApp\\UnlimitedImprovement\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\pv2sw\\AppData\\Roaming\\NuGet\\NuGet.Config",
